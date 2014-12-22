@@ -69,7 +69,13 @@
     // Register each debug helper as a test helper
     registerTestHelpers: function() {
       Ember.keys(this.helpers).forEach(function(key) {
-        Ember.Test.registerHelper(key, this.helpers[key].bind(this.helpers));
+        // Prefix helpers with 'current' to be consistent with existing helpers
+        var helperName = 'current' + Ember.String.capitalize(key);
+
+        // Don't overwrite existing helpers
+        if (!Ember.Test._helpers[helperName]) {
+          Ember.Test.registerHelper(helperName, this.helpers[key].bind(this.helpers));
+        }
       }, this);
     }
   };
