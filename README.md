@@ -7,50 +7,61 @@ This is a set of helpers for finding the application's currently active models/r
 All helpers can be called directly if you provide them an application instance:
 
 ```javascript
-// the `App` variable is an `Ember.Application` instance
-var currentModel = Ember.Console.helpers.model(App);
+// the `app` variable is an `Ember.Application` instance
+var currentModel = Ember.Console.helpers.model(app);
 ```
 
 But usually you'll want to inject them into the global namespace for ease of access:
 
 ```javascript
-// somewhere in app bootstrapping
-if (Ember.ENV.DEBUG) {
-  Ember.Console.injectHelpers(window, App);
+// app/app.js
+if (config.environment === 'development') {
+  App.initializer({
+    name: 'injectConsoleHelpers',
+
+    initialize: function(container, app) {
+      Ember.Console.injectHelpers(window, app);
+    }
+  });
 }
 
-// later in the console...
-var currentModel = model();
+// later in the console
+model().get('id')
+
+// > 'post1'
 ```
 
 Getting Ember Data records is easy as well:
 
 ```javascript
-var user = store().getById('user', '74');
+store().getById('user', '74');
+
+// > Class {id: "74"…}
 ```
 
 ### Testing
 
-These same helpers can also be very useful for integration testing. They can be exposed as normal test helpers:
+These same helpers can also be very useful for integration testing. When they are registered as test helpers, they are prefixed with `current`:
 
 ```javascript
 // somewhere in test bootstrapping
 Ember.Console.registerTestHelpers();
 
-// later in a test...
-visit('/').then(function() {
-  expect(routeName()).to.equal('index');
+// later in a test
+visit('/post/post1');
+andThen(function() {
+  expect(currentModel().get('id')).to.equal('post1');
 });
 ```
 
-Be careful! All test helpers are exposed as globals, so their generic names may conflict with simple local variable names:
+Be careful! Just like normal Ember test helpers, all helpers are exposed as globals, so their generic names may conflict with simple local variable names:
 
 ```javascript
 // because of variable hoisting, the global helper is wiped out before it can be used
-var model = model();
+var currentModel = currentModel();
 
 // nope!
-expect(model).to.be.ok();
+expect(currentModel).to.be.ok();
 ```
 
 ### Note
