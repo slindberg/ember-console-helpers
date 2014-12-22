@@ -3,6 +3,11 @@
 
   Ember.Console = {
     helpers: {
+      // Return a reference to the application itself, useful if not exposed as a global
+      app: function(app) {
+        return app;
+      },
+
       // Return a reference to the application's DI container
       container: function(app) {
         return app.__container__;
