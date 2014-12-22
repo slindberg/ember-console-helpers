@@ -1,6 +1,6 @@
 {
   "name": "ember-console-helpers",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "homepage": "https://github.com/slindberg/ember-console-helpers",
   "description": "Helper functions for examining the current state of an Ember.js app in the console",
   "main": "ember-console-helpers.js",
