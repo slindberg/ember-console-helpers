@@ -25,8 +25,7 @@
 
       // Return a reference to the current route name
       routeName: function(app) {
-        var parts = this.path(app).split('.');
-        return parts.slice(parts.length - 2).join('.');
+        return this.controller(app, 'application').get('currentRouteName');
       },
 
       // Return a reference to the current route instance, or optionally the named route
