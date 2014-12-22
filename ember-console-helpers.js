@@ -1,5 +1,5 @@
-(function(root) {
-  var Ember = root.Ember;
+(function(global) {
+  var Ember = global.Ember;
 
   Ember.Console = {
     helpers: {
@@ -69,4 +69,4 @@
       }, this);
     }
   };
-}(window));
+}(this));
