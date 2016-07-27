@@ -1,5 +1,6 @@
 (function(global) {
   var Ember = global.Ember;
+  var keys = Object.keys || Ember.keys;
 
   Ember.Console = {
     helpers: {
@@ -61,14 +62,14 @@
 
     // Injects the helpers into the given object, bound to the given app
     injectHelpers: function(root, app) {
-      Ember.keys(this.helpers).forEach(function(key) {
+      keys(this.helpers).forEach(function(key) {
         root[key] = this.helpers[key].bind(this.helpers, app);
       }, this);
     },
 
     // Register each debug helper as a test helper
     registerTestHelpers: function() {
-      Ember.keys(this.helpers).forEach(function(key) {
+      keys(this.helpers).forEach(function(key) {
         // Prefix helpers with 'current' to be consistent with existing helpers
         var helperName = 'current' + Ember.String.capitalize(key);
 
