@@ -56,7 +56,9 @@
 
       // Return a reference to the store instance
       store: function(app) {
-        return this.container(app).lookup('store:main');
+        // NOTE: `service:store` was added in Ember Data 2.0
+        return this.container(app).lookup('service:store')
+          || this.container(app).lookup('store:main');
       }
     },
 
